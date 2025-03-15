@@ -1,21 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import BadgeSparkles from "@/components/common/badge-sparkles";
 
 export default function HeroSection() {
    return (
       <section className="relative mx-auto flex flex-col z-0 items-center justify-center py-16 sm:py-20 lg:pb-28 transition-all animate-in lg:px-12 max-w-7xl">
          <div className="">
-            <div className="relative p-[1px] overflow-hidden rounded-full bg-linear-to-r from-rose-200 via-rose-500 to-rose-800 animate-gradient-x group">
-               <Badge
-                  variant={"secondary"}
-                  className="relative px-6 py-2 text-base font-medium bg-white rounded-full group-hover:bg-gray-50 transition-colors duration-200"
-               >
-                  <Sparkles className="h-6 w-6 mr-2 text-rose-600 animate-pulse" />
-                  <p className="text-base text-rose-500">Powered by AI</p>
-               </Badge>
-            </div>
+            <BadgeSparkles>Powered by AI</BadgeSparkles>
          </div>
          <h1 className="font-bold py-6 text-center">
             Transform PDFs into{" "}
