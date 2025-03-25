@@ -3,6 +3,7 @@
 import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./upload-form-input";
 import { z } from "zod";
+import { toast } from "sonner"
 
 const schema = z.object({
    file: z
@@ -17,7 +18,10 @@ export default function UploadForm() {
          console.log("uploaded successfully!");
       },
       onUploadError: (err) => {
-         console.log("error occurred while uploading", err);
+         toast.error("Error occurred while uploading", {
+               description: err.message,
+            }
+         );
       },
       onUploadBegin: ({ file }) => {
         console.log("upload has begun for", file);
@@ -28,24 +32,36 @@ export default function UploadForm() {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const file = formData.get("file") as File;
+
       //Validating the fields
       const validatedFields = schema.safeParse({ file });
-
+      console.log(validatedFields);
+      
       if(!validatedFields.success) {
-         console.log(
-            validatedFields.error.flatten().fieldErrors.file?.[0] ?? "Invalid file"
+         toast.error("Something went wrong", {
+            description:
+               validatedFields.error.flatten().fieldErrors.file?.[0] ?? "Invalid file",
+            }
          );
          return;
       }
 
+      toast.info("Uploading PDF", {
+         description: "We are uploading your PDF!",
+      })
+
       //
       const resp = await startUpload([file]);
       if (!resp) {
+         toast.error("Something went wrong", {
+            description: "Please use a different file",
+         })
          return;
       }
 
-      console.log("Submitted");
-      console.log(validatedFields);
+      toast.info("Processing PDF", {
+         description: "Hang tight! Our AI is reading through your document!",
+      })
    };
 
    return (
