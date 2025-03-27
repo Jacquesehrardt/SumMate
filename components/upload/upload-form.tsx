@@ -4,6 +4,7 @@ import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./upload-form-input";
 import { z } from "zod";
 import { toast } from "sonner"
+import { generatePdfSummary } from "@/actions/upload-actions";
 
 const schema = z.object({
    file: z
@@ -62,6 +63,12 @@ export default function UploadForm() {
       toast.info("Processing PDF", {
          description: "Hang tight! Our AI is reading through your document!",
       })
+
+      //Parse the pdf using langchain
+      const summary = await generatePdfSummary(resp);
+      console.log({ summary })
+
+
    };
 
    return (
