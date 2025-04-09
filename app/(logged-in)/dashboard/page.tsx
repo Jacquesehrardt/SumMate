@@ -12,9 +12,12 @@ import { redirect } from "next/navigation";
 export default async function DashboardPage(){
    const user = await currentUser();
    const userId = user?.id;
+   if(!userId) return null;
+   const email = user?.emailAddresses?.[0]?.emailAddress;
+
    if(!userId) return redirect("/sign-in");
 
-   const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(userId); 
+   const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(userId, email); 
 
    const summaries = await getSummaries(userId);
 

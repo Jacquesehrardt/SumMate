@@ -76,7 +76,35 @@ async function createOrUpdateUser({
    try{
       const user = await sql`SELECT * FROM users WHERE email = ${email}`;
       if(user.length === 0){
-         await sql`INSERT INTO users (email, full_name, customer_id, price_id, status) VALUES (${email}, ${fullName}, ${customerId}, ${priceId}, ${status})`
+         await sql`
+            INSERT INTO users (
+               email, 
+               full_name, 
+               customer_id, 
+               price_id, 
+               status
+            ) VALUES (
+               ${email}, 
+               ${fullName}, 
+               ${customerId}, 
+               ${priceId}, 
+               ${status}
+            )
+         `;
+      } else {
+         await sql`
+            UPDATE users
+            SET full_name = ${fullName},
+               customer_id = ${customerId},
+               price_id = ${priceId},
+               status = ${status}
+            WHERE email = ${email} AND (
+               full_name IS DISTINCT FROM ${fullName} OR
+               customer_id IS DISTINCT FROM ${customerId} OR
+               price_id IS DISTINCT FROM ${priceId} OR
+               status IS DISTINCT FROM ${status}
+            )
+         `;
       }
    } catch(error){
       console.error("Error creating or updating user", error);
