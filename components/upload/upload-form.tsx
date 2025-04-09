@@ -98,7 +98,7 @@ export default function UploadForm() {
                });
 
                formRef.current?.reset();
-               router.push(`/summaries/${storeResult.data.id}`)
+               router.push(`/summaries/${storeResult.data.id}`);
             }
          };
       } catch(error){
