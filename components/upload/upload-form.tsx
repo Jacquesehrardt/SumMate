@@ -63,6 +63,7 @@ export default function UploadForm() {
    
          //
          const resp = await startUpload([file]);
+         console.log("resp: ", resp);
          if (!resp) {
             toast.error("Something went wrong", {
                description: "Please use a different file",
@@ -112,7 +113,11 @@ export default function UploadForm() {
 
    return (
       <div className="flex felx-col justify-center gap-8 w-full max-w-2xl mx-auto">
-         <UploadFormInput isLoading={isLoading} ref={formRef} onSubmit={handleSubmit} />
+         <UploadFormInput
+            isLoading={isLoading}
+            ref={formRef}
+            onSubmit={handleSubmit}
+         />
       </div>
    );
 }

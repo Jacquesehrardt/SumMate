@@ -6,6 +6,7 @@ import { NavigationControls } from "./navigation-controls";
 import ProgressBar from "./progress-bar";
 import { parseSection } from "@/utils/summary-helper";
 import ContentSection from "./content-section";
+import { MotionDiv } from "@/components/common/motion-wrapper";
 
 const SectionTitle = ({title}:{title: string}) => {
    return(
@@ -40,25 +41,30 @@ export default function SummaryViewer({ summary }: { summary: string }){
       >
          <ProgressBar sections={sections} currentSection={currentSection} />
 
-         <div>
-            <div className="h-full overflow-y-auto scrollbar-hide pt-12 sm:pt-16 pb-20 sm:pb-24">
-               <div className="px-4 sm:px-6">
-                  <SectionTitle title={sections [currentSection]?.title || ""} />
-                  <ContentSection
-                     title={sections [currentSection]?.title || ""}
-                     points={sections [currentSection]?.points || []}
-                  />
-               </div>
+         <MotionDiv
+            key={currentSection}
+            initial={{opacity: 0}}
+            whileInView={{opacity: 1}}
+            transition={{duration: 0.2, ease: "easeInOut"}}
+            exit={{opacity: 0}}
+            className="h-full overflow-y-auto scrollbar-hide pt-12 sm:pt-16 pb-20 sm:pb-24"
+         >
+            <div className="px-4 sm:px-6">
+               <SectionTitle title={sections [currentSection]?.title || ""} />
+               <ContentSection
+                  title={sections [currentSection]?.title || ""}
+                  points={sections [currentSection]?.points || []}
+               />
             </div>
+         </MotionDiv>
 
-            <NavigationControls 
-               currentSection={currentSection}
-               totalSections={sections.length}
-               onPrevious={handlePrevious}
-               onNext={handleNext}
-               onSectionSelect={setCurrentSection}
-            />
-         </div>
+         <NavigationControls 
+            currentSection={currentSection}
+            totalSections={sections.length}
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+            onSectionSelect={setCurrentSection}
+         />
       </Card>
    );
 }

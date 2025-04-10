@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Sparkles } from "lucide-react";
+import { MotionDiv } from "./motion-wrapper";
+import { itemVariants } from "@/utils/constants";
 
 export default function BadgeSparkles ({
    children,
@@ -7,7 +9,10 @@ export default function BadgeSparkles ({
    children: React.ReactNode;
 }) {
    return (
-      <div className="relative p-[1px] overflow-hidden rounded-full bg-linear-to-r from-rose-200 via-rose-500 to-rose-800 animate-gradient-x group">
+      <MotionDiv 
+         variants={itemVariants}
+         className="relative p-[1px] overflow-hidden rounded-full bg-linear-to-r from-rose-200 via-rose-500 to-rose-800 animate-gradient-x group"
+      >
          <Badge
             variant={"secondary"}
             className="relative px-6 py-2 text-base font-medium bg-white rounded-full group-hover:bg-rose-100 transition-colors duration-200"
@@ -17,6 +22,6 @@ export default function BadgeSparkles ({
                {children}
             </p>
          </Badge>
-      </div>
+      </MotionDiv>
    )
 }
