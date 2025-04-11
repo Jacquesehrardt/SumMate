@@ -22,8 +22,7 @@ export default async function DashboardPage(){
    const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(userId, email); 
 
    const summaries = await getSummaries(userId);
-   await new Promise((resolve) => setTimeout(resolve, 10000));
-
+   
    return (
       <main className="min-h-screen">
          <BgGradient className="from-emerald-200 via-teal-200 to-cyan-200" />
