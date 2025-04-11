@@ -16,31 +16,8 @@ interface PdfSummaryType {
    fileName: string;
 }
 
-export async function generatePdfSummary(uploadResponse: [{
-   serverData: {
-      userId: string,
-      file: {
-         url: string,
-         name: string,
-      };
-   },
-}]) {
-   if(!uploadResponse){
-      return {
-         success: false,
-         message: "File upload failed",
-         data: null,
-      }
-   }
-
-   const {
-      serverData: {
-         userId,
-         file: { url: pdfUrl, name: fileName }
-      },
-   } = uploadResponse[0];
-
-   if(!pdfUrl){
+export async function generatePdfText({ fileUrl } : { fileUrl: string }) {
+   if(!fileUrl){
       return {
          success: false,
          message: "File upload failed",
@@ -49,16 +26,47 @@ export async function generatePdfSummary(uploadResponse: [{
    }
 
    try{
-      const pdfText = await fetchAndExtractPdfText(pdfUrl);
+      const pdfText = await fetchAndExtractPdfText(fileUrl);
       console.log({ pdfText })
 
+      if(!pdfText){
+         return {
+            success: false,
+            message: "Failed to fetch and extract PDF text",
+            data: null,
+         };
+      }
+
+      return {
+         success: true,
+         message: "PDF text generated successfully",
+         data: { pdfText },
+      };
+   } catch(err) {
+      return {
+         success: false,
+         message: "Failed to fetch and extract PDF text",
+         data: null,
+      };
+   }
+}
+
+export async function generatePdfSummary({
+   pdfText,
+   fileName,
+} : {
+   pdfText: string;
+   fileName: string;
+}) {
+   try{
       let summary;
       try{
+         //Call OpenAI
          summary = await generateSummaryFromOpenAi(pdfText);
          console.log({ summary })
       } catch(error){
          console.log(error)
-         //Gemini
+         //Call Gemini
          if(error instanceof Error && error.message === "RATE_LIMIT_EXCEEDED"){
             try{
                summary = await generateSummaryFromGemini(pdfText);
@@ -67,6 +75,11 @@ export async function generatePdfSummary(uploadResponse: [{
                throw new Error("Failed to generate summary with available AI providers");
             }
          }
+         return {
+            success: false,
+            message: "Failed to generate summary",
+            data: null,
+         };
       }
 
       if(!summary){
@@ -77,13 +90,11 @@ export async function generatePdfSummary(uploadResponse: [{
          };
       }
 
-      const formattedFileName = formatFileNameAsTitle(fileName);
-
       return {
          success: true,
          message: "Summary generated successfully",
          data: {
-            title: formattedFileName,
+            title: fileName,
             summary,
          },
       };
@@ -91,7 +102,7 @@ export async function generatePdfSummary(uploadResponse: [{
    } catch(err) {
       return {
          success: false,
-         message: "File upload failed",
+         message: "Failed to generate summary",
          data: null,
       };
    }

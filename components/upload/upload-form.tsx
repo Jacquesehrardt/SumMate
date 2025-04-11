@@ -4,10 +4,11 @@ import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "@/components/upload/upload-form-input";
 import { z } from "zod";
 import { toast } from "sonner"
-import { generatePdfSummary, storePdfSummaryAction } from "@/actions/upload-actions";
+import { generatePdfSummary, generatePdfText, storePdfSummaryAction } from "@/actions/upload-actions";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSkeleton from "./loading-skeleton";
+import { formatFileNameAsTitle } from "@/utils/format-utils";
 
 const schema = z.object({
    file: z
@@ -31,8 +32,8 @@ export default function UploadForm() {
             }
          );
       },
-      onUploadBegin: ({ file }) => {
-        console.log("upload has begun for", file);
+      onUploadBegin: (data) => {
+        console.log("upload has begun for", data);
       },
     });
 
@@ -62,10 +63,10 @@ export default function UploadForm() {
             description: "We are uploading your PDF!",
          });
    
-         //
-         const resp = await startUpload([file]);
-         console.log("resp: ", resp);
-         if (!resp) {
+         //Upload PDF
+         const uploadResponse = await startUpload([file]);
+         
+         if(!uploadResponse) {
             toast.error("Something went wrong", {
                description: "Please use a different file",
             });
@@ -74,35 +75,48 @@ export default function UploadForm() {
          }
    
          toast.info("Processing PDF", {
+            description: "Hang tight! We are processing your document!",
+         });
+
+         const uploadFileUrl = uploadResponse[0].serverData.file.url;
+         const formattedFileName = formatFileNameAsTitle(file.name);
+
+         const result = await generatePdfText({
+            fileUrl: uploadFileUrl,
+         });
+
+         toast.info("Generating PDF summary", {
             description: "Hang tight! Our AI is reading through your document!",
          });
-   
-         //Parse the pdf using langchain
-         const result = await generatePdfSummary(resp);
-   
-         const { data = null, message = null} = result || {};
          
-         if(data){
-            let storeResult: any;
-            toast.info("Saving PDF", {
-               description: "Hang tight! We are saving your summary!",
+         //Call AI
+         const summaryResult = await generatePdfSummary({
+            pdfText: result?.data?.pdfText ?? "",
+            fileName: formattedFileName,
+         });
+         toast.info("Saving PDF summary", {
+            description: "Hang tight! We are saving your summary!",
+         });
+         
+         const { data = null, message = null} = summaryResult || {};
+         
+         let storeResult: any;
+         if(data?.summary){
+            //Save the summary to the database
+            storeResult = await storePdfSummaryAction({
+               summary: data.summary,
+               fileUrl: uploadFileUrl,
+               title: formattedFileName,
+               fileName: file.name,
+            });
+            toast.info("Summary Generated", {
+               description: "Your PDF has been successfully summarized and saved!",
             });
 
-            if(data.summary){
-               storeResult = await storePdfSummaryAction({
-                  summary: data.summary,
-                  fileUrl: resp[0].serverData.file.url,
-                  title: data.title,
-                  fileName: file.name,
-               });
-               toast.info("Summary Generated", {
-                  description: "Your PDF has been successfully summarized and saved!",
-               });
-
-               formRef.current?.reset();
-               router.push(`/summaries/${storeResult.data.id}`);
-            }
-         };
+            formRef.current?.reset();
+            router.push(`/summaries/${storeResult.data.id}`);
+         }
+         
       } catch(error){
          setIsLoading(false);
          console.error("Error occurred", error);
