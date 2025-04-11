@@ -78,7 +78,7 @@ export default function UploadForm() {
             description: "Hang tight! We are processing your document!",
          });
 
-         const uploadFileUrl = uploadResponse[0].serverData.file.url;
+         const uploadFileUrl = uploadResponse[0].serverData.fileUrl;
          const formattedFileName = formatFileNameAsTitle(file.name);
 
          const result = await generatePdfText({
