@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 SumMate – Summarize your PDFs with the power of AI
 
-## Getting Started
+**SumMate** is a full-stack AI-powered SaaS platform that transforms long PDF documents into clear, concise, and visually engaging summaries. Built for productivity and ease of use, it helps users quickly extract key insights from complex files.
 
-First, run the development server:
+[![Project Preview](https://summate.vercel.app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ⚙️ Core Technologies
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🧱 **Next.js 15** – App Router with Server Components and SSR
+- ⚛️ **React** – For building dynamic and interactive UI
+- 🔐 **Clerk** – Secure authentication with Passkeys, GitHub, and Google
+- 🤖 **OpenAI GPT-4** – For intelligent and context-aware summarization
+- 📚 **LangChain** – For document parsing, chunking, and PDF handling
+- 🧩 **Shadcn UI** – Accessible and customizable UI components
+- 🗄️ **NeonDB (PostgreSQL)** – Serverless database to store user data and summaries
+- 📤 **UploadThing** – Secure PDF upload and file handling (up to 32MB)
+- 💳 **Stripe** – For subscription payments and billing
+- 🛠️ **TypeScript** – Type safety and enhanced DX
+- 🎨 **TailwindCSS** – Utility-first responsive styling
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 📄 Structured summaries with bullet points and insights
+- 📊 Interactive summary viewer with progress tracking
+- 🔐 Authenticated access to routes and API endpoints
+- 💼 User dashboard for managing uploaded documents
+- 📦 Flexible pricing plans (Basic and Pro)
+- 🧾 Stripe webhook support and billing integration
+- 📱 Fully responsive for mobile and desktop
+- ⚡ Real-time status updates and revalidation
+- 🔔 Toast notifications for upload/processing/errors
+- 📈 SEO-friendly summary generation
+- 🧹 Performance-optimized production build
 
-## Learn More
+## 🛠️ Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+1. Fork this repo
+2. Copy `.env.example` to `.env.local` and fill in your credentials:
+   - OpenAI API Key
+   - Clerk configuration
+   - UploadThing setup
+   - Stripe keys
+   - NeonDB connection string
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to Fork and Clone
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Click the "Fork" button in the top right corner of this repository to create your own 2. Clone your forked repository to your local machine
+3. Install dependencies with `npm install`
+4. Set up your environment variables
+5. Run the development server with `npm run dev`
 
-## Deploy on Vercel
+## Acknowledgements
+- [Clerk] (https://go.clerk.com/5q0WrFA) for authentication
+- [OpenAI] (https://openai.com) for GPT-4 API
+- [Langchain] (https://js.langchain.com) for document processing
+- [ShadcN UI] (https://ui.shadcn.com/) for components
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Licence
+[MIT] (https://choosealicense.com/licenses/mit/)
