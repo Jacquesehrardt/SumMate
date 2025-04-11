@@ -22,6 +22,7 @@ export default async function DashboardPage(){
    const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(userId, email); 
 
    const summaries = await getSummaries(userId);
+   await new Promise((resolve) => setTimeout(resolve, 10000));
 
    return (
       <main className="min-h-screen">
