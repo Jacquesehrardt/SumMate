@@ -2,8 +2,6 @@
 
 **SumMate** is a full-stack AI-powered SaaS platform that transforms long PDF documents into clear, concise, and visually engaging summaries. Built for productivity and ease of use, it helps users quickly extract key insights from complex files.
 
-[![Project Preview](https://summate.vercel.app)
-
 ## ⚙️ Core Technologies
 
 - 🧱 **Next.js 15** – App Router with Server Components and SSR
@@ -50,10 +48,10 @@
 5. Run the development server with `npm run dev`
 
 ## Acknowledgements
-- [Clerk] (https://go.clerk.com/5q0WrFA) for authentication
-- [OpenAI] (https://openai.com) for GPT-4 API
-- [Langchain] (https://js.langchain.com) for document processing
-- [ShadcN UI] (https://ui.shadcn.com/) for components
+- [Clerk](https://go.clerk.com/5q0WrFA) for authentication
+- [OpenAI](https://openai.com) for GPT-4 API
+- [Langchain](https://js.langchain.com) for document processing
+- [ShadcN UI](https://ui.shadcn.com/) for components
 
 ## Licence
-[MIT] (https://choosealicense.com/licenses/mit/)
+[MIT](https://choosealicense.com/licenses/mit/)
