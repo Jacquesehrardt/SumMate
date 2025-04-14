@@ -1,3 +1,5 @@
+export const isDev = process.env.NODE_ENV === "development";
+
 export const pricingPlans = [
    {
       id: "basic",
@@ -10,13 +12,13 @@ export const pricingPlans = [
          "Email support",
       ],
       paymentLink: 
-         process.env.NODE_ENV === "development" 
-            ? "https://buy.stripe.com/test_9AQeWi16pfMo8jC9AA"
-            : "",
+         isDev 
+            ? "https://buy.stripe.com/test_9AQeWi16pfMo8jC9AA" 
+            : "https://buy.stripe.com/14k7w62yUevQetO149",
       priceId: 
-      process.env.NODE_ENV === "development"
-         ? "price_1R9SBw2KihVeWaRzm3JqaoyE"
-         : "",
+         isDev 
+            ? "price_1R9SBw2KihVeWaRzm3JqaoyE" 
+            : "price_1RDsLuRxO0c6fpAjcAjHD07I",
    },
    {
       id: "pro",
@@ -30,13 +32,13 @@ export const pricingPlans = [
          "Markdown Export",
       ],
       paymentLink: 
-         process.env.NODE_ENV === "development"
-            ? "https://buy.stripe.com/test_aEU3dA6qJfMo1VecMN"
-            : "",
+         isDev 
+            ? "https://buy.stripe.com/test_aEU3dA6qJfMo1VecMN" 
+            : "https://buy.stripe.com/8wMaIigpKfzUetOdQU",
       priceId: 
-         process.env.NODE_ENV === "development"
-            ? "price_1R9SBw2KihVeWaRz4QYfwKNR"
-            : "",
+         isDev 
+            ? "price_1R9SBw2KihVeWaRz4QYfwKNR" 
+            : "price_1RDsLuRxO0c6fpAjfrtnSIPQ",
    },
 ];
 
@@ -66,3 +68,5 @@ export const itemVariants = {
       }
    }
 }
+
+export const ORIGIN_URL = isDev ? "http://localhost:3000" : "https://sum-mate-ai.vercel.app/";

@@ -6,6 +6,7 @@ import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import { ORIGIN_URL } from "@/utils/constants";
 
 const fontSans = FontSans({
   variable: "--font-sans",
@@ -15,7 +16,11 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "SumMate - Effortless PDF Summarization",
-  description: "SumMate is an app to summarizing PDF documentsSumMate is your reliable tool for instantly summarizing PDF documents. Save time and get to the key points quickly with our user-friendly, secure platform. Ideal for professionals, students, and anyone needing efficient content extraction from PDFs.",
+  description: "Save time with SumMate and get to the key points quickly with our user-friendly and secure platform.",
+  metadataBase: new URL(ORIGIN_URL),
+  alternates:{
+    canonical: ORIGIN_URL,
+  }
 };
 
 export default function RootLayout({
